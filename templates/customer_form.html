@@ -1,0 +1,17 @@
+<!doctype html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Customer · NScen</title><style>
+*{box-sizing:border-box}body{margin:0;padding:16px;background:#10131b;color:#f7f7fa;font:15px Arial}
+.wrap{max-width:650px;margin:auto}h1{color:#ff9b36}.card{background:#1c2230;border:1px solid #343d4e;border-radius:12px;padding:18px}
+label{display:block;margin-top:12px}input,textarea{display:block;width:100%;background:#0d1119;border:1px solid #414b5d;color:white;border-radius:8px;padding:11px;margin-top:6px;font:inherit}
+textarea{min-height:100px}.btn,button{display:inline-block;background:#ff9b36;color:#201205;border:0;border-radius:8px;padding:11px 13px;text-decoration:none;font-weight:bold;margin-top:15px;cursor:pointer}
+.secondary{background:#30394a;color:white;margin-left:6px}.muted{color:#bbc3d2;font-size:13px}
+</style></head><body><main class="wrap"><a class="btn secondary" href="/crm">← Back to CRM</a>
+<h1>{% if customer %}গ্রাহকের তথ্য এডিট{% else %}নতুন গ্রাহক যোগ করুন{% endif %}</h1>
+<form class="card" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<label>গ্রাহকের নাম *</label><input name="name" required maxlength="150" value="{{ customer.name if customer else '' }}">
+<label>ফোন নম্বর</label><input name="phone" maxlength="50" value="{{ customer.phone if customer else '' }}">
+<label>ইমেইল</label><input name="email" type="email" maxlength="254" value="{{ customer.email if customer else '' }}">
+<label>কোম্পানি</label><input name="company" maxlength="150" value="{{ customer.company if customer else '' }}">
+<label>নোট</label><textarea name="notes" maxlength="5000">{{ customer.notes if customer else '' }}</textarea>
+<button type="submit">{% if customer %}Save Changes{% else %}Save Customer{% endif %}</button><a class="btn secondary" href="/crm">Cancel</a>
+</form></main></body></html>

@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+nscen.db
+*.db
+*.sqlite
+*.sqlite3
+.env
+.venv
+*.backup
+*.backup_*
+*.before_auth

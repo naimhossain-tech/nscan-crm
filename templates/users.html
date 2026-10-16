@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Users · NScen</title>
+<style>
+*{box-sizing:border-box}body{margin:0;padding:16px;background:#10131b;color:#fff;font:15px Arial}
+.wrap{max-width:850px;margin:auto}h1{color:#ff9b36}.card{background:#1c2230;border:1px solid #343d4e;border-radius:12px;padding:16px;margin:14px 0}
+input,select{width:100%;padding:11px;margin:6px 0 12px;background:#0d1119;border:1px solid #414b5d;color:#fff;border-radius:8px}
+.btn,button{display:inline-block;padding:10px 13px;background:#ff9b36;color:#201205;border:0;border-radius:8px;font-weight:bold;text-decoration:none;cursor:pointer}
+table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px;border-bottom:1px solid #343d4e}
+.notice{padding:10px;background:#243b30;border-radius:8px;margin:10px 0}.error{background:#51282b}.muted{color:#bbc3d2}
+</style></head><body><main class="wrap">
+<a class="btn" href="/">← Dashboard</a><h1>Admin · User Management</h1>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% for category,message in messages %}<div class="notice {% if category=='error' %}error{% endif %}">{{ message }}</div>{% endfor %}
+{% endwith %}
+<section class="card"><h3>Create User</h3><form method="post">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<label>Username</label><input name="username" required minlength="3" maxlength="80" autocomplete="off">
+<label>Password (কমপক্ষে ১২ অক্ষর)</label><input type="password" name="password" required minlength="12" autocomplete="new-password">
+<label>Role</label><select name="role"><option value="agent">Agent</option><option value="admin">Admin</option></select>
+<button type="submit">Create User</button></form></section>
+<section class="card"><h3>Existing Users</h3><table><thead><tr><th>Username</th><th>Role</th><th>Created</th></tr></thead><tbody>
+{% for u in users %}<tr><td>{{ u.username }}</td><td>{{ u.role }}</td><td>{{ u.created_at }}</td></tr>{% endfor %}
+</tbody></table></section></main></body></html>

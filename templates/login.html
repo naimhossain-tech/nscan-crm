@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="bn"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Login · NScen CRM</title>
+<style>
+*{box-sizing:border-box}body{margin:0;padding:18px;background:#10131b;color:#fff;font:16px Arial}
+.card{max-width:420px;margin:8vh auto;background:#1c2230;border:1px solid #343d4e;border-radius:14px;padding:22px}
+h1{color:#ff9b36}label{display:block;margin-top:14px}input{width:100%;padding:12px;margin-top:6px;background:#0d1119;border:1px solid #414b5d;border-radius:8px;color:white}
+button{width:100%;padding:12px;margin-top:18px;border:0;border-radius:8px;background:#ff9b36;color:#201205;font-weight:bold}
+.notice{padding:10px;border-radius:8px;background:#243b30;margin:10px 0}.error{background:#51282b}
+</style></head><body><main class="card">
+<h1>NScen CRM</h1><p>Sign in to your workspace</p>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% for category,message in messages %}<div class="notice {% if category=='error' %}error{% endif %}">{{ message }}</div>{% endfor %}
+{% endwith %}
+<form method="post">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<label>Username</label><input name="username" required autocomplete="username" maxlength="80">
+<label>Password</label><input type="password" name="password" required autocomplete="current-password">
+<button type="submit">Login</button>
+</form></main></body></html>

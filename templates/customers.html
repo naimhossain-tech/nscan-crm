@@ -1,0 +1,26 @@
+<!doctype html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Customers · NScen</title><style>
+*{box-sizing:border-box}body{margin:0;padding:16px;background:#10131b;color:#f7f7fa;font:15px Arial}
+.wrap{max-width:1000px;margin:auto}h1{color:#ff9b36}.muted{color:#bbc3d2;font-size:13px}
+.btn,button{display:inline-block;background:#ff9b36;color:#201205;border:0;border-radius:8px;padding:10px 12px;text-decoration:none;font-weight:bold;cursor:pointer}
+.bar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+input{background:#0d1119;border:1px solid #414b5d;color:white;border-radius:8px;padding:11px}
+.search{display:flex;gap:8px;margin:16px 0}.search input{flex:1;min-width:0;width:100%}
+table{width:100%;border-collapse:collapse;background:#1c2230}th,td{padding:10px;text-align:left;border-bottom:1px solid #343d4e;vertical-align:top}th{color:#ffbd78}
+.table-wrap{overflow-x:auto}.actions{display:flex;gap:6px;flex-wrap:wrap}.small{padding:7px 9px;font-size:12px}.danger{background:#b93d42;color:white}
+.notice{padding:10px;margin:10px 0;background:#243b30;border-radius:8px}.error{background:#51282b}
+@media(max-width:600px){body{padding:10px}table{min-width:700px}}
+</style></head><body><main class="wrap">
+<div class="bar"><div><h1>👥 Customer Management</h1><p class="muted">Logged in: {{ user.username }} · {{ user.role|upper }}</p></div>
+<div><a class="btn" href="/">Dashboard</a> <form style="display:inline" method="post" action="/logout"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button>Logout</button></form></div></div>
+{% with messages = get_flashed_messages(with_categories=true) %}{% for category,message in messages %}<div class="notice {% if category=='error' %}error{% endif %}">{{ message }}</div>{% endfor %}{% endwith %}
+<form class="search" method="get" action="/crm"><input name="q" value="{{ q }}" placeholder="নাম, ফোন, ইমেইল বা কোম্পানি দিয়ে সার্চ"><button>Search</button></form>
+<div class="bar"><p class="muted">ফলাফল: {{ customers|length }}</p><a class="btn" href="/crm/add">+ Add Customer</a></div>
+{% if customers %}<div class="table-wrap"><table><thead><tr><th>নাম</th><th>ফোন</th><th>ইমেইল</th><th>কোম্পানি</th><th>নোট</th><th>কাজ</th></tr></thead><tbody>
+{% for c in customers %}<tr><td><b>{{ c.name }}</b><br><span class="muted">#{{ c.id }}</span></td><td>{{ c.phone or "—" }}</td><td>{{ c.email or "—" }}</td><td>{{ c.company or "—" }}</td><td>{{ c.notes or "—" }}</td><td><div class="actions">
+{% if user.role == 'admin' %}<a class="btn small" href="/crm/{{ c.id }}/edit">Edit</a>
+<form method="post" action="/crm/{{ c.id }}/delete" onsubmit="return confirm('এই গ্রাহককে ডিলিট করবেন?')"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="small danger">Delete</button></form>
+{% else %}<span class="muted">View only</span>{% endif %}
+</div></td></tr>{% endfor %}</tbody></table></div>
+{% else %}<section style="padding:20px;background:#1c2230;border-radius:10px"><h3>কোনো গ্রাহক নেই</h3><p class="muted">প্রথম গ্রাহক যোগ করুন।</p><a class="btn" href="/crm/add">+ Add Customer</a></section>{% endif %}
+</main></body></html>

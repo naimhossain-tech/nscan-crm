@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="bn"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Initial Admin Setup · NScen</title>
+<style>
+*{box-sizing:border-box}body{margin:0;padding:18px;background:#10131b;color:#fff;font:16px Arial}
+.card{max-width:450px;margin:6vh auto;background:#1c2230;border:1px solid #343d4e;border-radius:14px;padding:22px}
+h1{color:#ff9b36}p{color:#bbc3d2;font-size:14px}label{display:block;margin-top:14px}
+input{width:100%;padding:12px;margin-top:6px;background:#0d1119;border:1px solid #414b5d;border-radius:8px;color:white}
+button{width:100%;padding:12px;margin-top:18px;border:0;border-radius:8px;background:#ff9b36;color:#201205;font-weight:bold}
+.notice{padding:10px;border-radius:8px;background:#51282b;margin:10px 0}
+</style></head><body><main class="card">
+<h1>Initial Admin Setup</h1><p>প্রথম Admin তৈরি করুন। Password কমপক্ষে ১২ অক্ষরের হতে হবে।</p>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% for category,message in messages %}<div class="notice">{{ message }}</div>{% endfor %}
+{% endwith %}
+<form method="post">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<label>Admin Username</label><input name="username" required minlength="3" maxlength="80" autocomplete="username">
+<label>Password</label><input type="password" name="password" required minlength="12" autocomplete="new-password">
+<label>Confirm Password</label><input type="password" name="confirm" required minlength="12" autocomplete="new-password">
+<button type="submit">Create Admin</button>
+</form></main></body></html>

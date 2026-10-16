@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NScen CRM</title>
+<style>
+*{box-sizing:border-box}body{margin:0;padding:20px;background:#10131b;color:#f7f7fa;font:16px Arial}
+.wrap{max-width:900px;margin:auto}h1{color:#ff9b36}.muted{color:#bbc3d2;font-size:14px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:20px}
+.card{display:block;background:#1c2230;border:1px solid #343d4e;border-radius:12px;padding:16px;color:inherit;text-decoration:none}
+.btn,button{display:inline-block;background:#ff9b36;color:#201205;border:0;border-radius:8px;padding:10px 12px;text-decoration:none;font-weight:bold;cursor:pointer}
+.inline{display:inline}.muted a{color:#ffb86b}
+@media(max-width:480px){body{padding:12px}.grid{gap:8px}.card{padding:12px}}
+</style></head><body><main class="wrap">
+<div class="top"><div><h1>NScen CRM</h1><p class="muted">Business Communications Workspace</p>
+<p class="muted">Logged in: <b>{{ user.username }}</b> · Role: <b>{{ user.role|upper }}</b></p></div>
+<div>
+{% if user.role == 'admin' %}<a class="btn" href="/admin/users">Manage Users</a>{% endif %}
+<form class="inline" method="post" action="/logout"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button>Logout</button></form>
+</div></div>
+<div class="grid">
+<a class="card" href="/crm"><h3>👥 Customer Management</h3><p class="muted">Saved customers: {{ customer_count }}</p><span class="btn">Open CRM</span></a>
+<section class="card"><h3>☎ Dialer</h3><p class="muted">Demo mode — real calling not connected</p></section>
+<section class="card"><h3>✉ SMS Inbox</h3><p class="muted">Demo mode — SMS provider not connected</p></section>
+<section class="card"><h3>🎧 Agents</h3><p class="muted">User accounts: Admin can manage users</p></section>
+<section class="card"><h3>✦ AI Assistant</h3><p class="muted">Upcoming</p></section>
+<section class="card"><h3>▤ Reports</h3><p class="muted">Upcoming</p></section>
+</div></main></body></html>
